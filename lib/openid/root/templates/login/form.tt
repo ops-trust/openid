@@ -1,0 +1,40 @@
+<P>Please log in.</P>
+<P>Use your wikiname, not your e-mail address, to log in.</P>
+<FORM ACTION="/login/submit" METHOD="post">
+[% IF return_to %]
+<INPUT TYPE=HIDDEN NAME=openid.return_to VALUE="[% return_to %]">
+[% END %]
+[% IF realm %]
+<INPUT TYPE=HIDDEN NAME=openid.realm VALUE="[% realm %]">
+[% END %]
+[% IF trust_root %]
+<INPUT TYPE=HIDDEN NAME=openid.trust_root VALUE="[% trust_root %]">
+[% END %]
+[% IF assoc_handle %]
+<INPUT TYPE=HIDDEN NAME=openid.assoc_handle VALUE="[% assoc_handle %]">
+[% END %]
+[% IF sign %]
+<INPUT TYPE=HIDDEN NAME=openid.sign VALUE="[% sign %]">
+[% END %]
+
+<TABLE>
+<TR>
+<TH>Username:</TH>
+<TD><INPUT TYPE="text" NAME="username" VALUE="[% login %]"></TD>
+</TR><TR>
+<TH>Password:</TH>
+<TD><INPUT TYPE="password" NAME="password"></TD>
+</TR><TR>
+<TH>Two Factor:</TH>
+<TD><INPUT TYPE="password" NAME="second_factor"></TD>
+<TD><I>(Only if configured)</I></TD>
+</TR>
+</TABLE>
+
+[% IF recaptcha %]
+[% recaptcha %]
+[% END %]
+<INPUT TYPE="submit" VALUE="Login">
+<INPUT TYPE="reset" VALUE="Reset">
+</FORM>
+<P>Note: web cookies are required beyond this point.</P>

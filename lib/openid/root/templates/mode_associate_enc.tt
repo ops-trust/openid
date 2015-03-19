@@ -1,0 +1,7 @@
+assoc_type:[% assoc_type %]
+ns:[% ns %]
+assoc_handle:[% assoc_handle %]
+expires_in:[% assoc_expire %]
+session_type:[% session_type %]
+dh_server_public:[% dh_server_public %]
+enc_mac_key:[% enc_mac_key %]

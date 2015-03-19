@@ -1,0 +1,6 @@
+assoc_type:[% assoc_type %]
+ns:[% ns %]
+assoc_handle:[% assoc_handle %]
+session_type:[% session_type %]
+expires_in:[% assoc_expire %]
+mac_key:[% mac_key %]

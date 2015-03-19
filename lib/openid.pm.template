@@ -1,0 +1,174 @@
+package openid;
+use Moose;
+use namespace::autoclean;
+use openid_functions;
+use Log::Log4perl::Catalyst;
+
+use Catalyst::Runtime 5.80;
+
+# Set flags and add plugins for the application.
+#
+# Note that ORDERING IS IMPORTANT here as plugins are initialized in order,
+# therefore you almost certainly want to keep ConfigLoader at the head of the
+# list if you're using it.
+#
+#         -Debug: activates the debug mode for very useful log messages
+#   ConfigLoader: will load the configuration from a Config::General file in the
+#                 application's home directory
+# Static::Simple: will serve static files from the application's root
+#                 directory
+
+use Catalyst::Action::RenderView::ErrorHandler;
+use Catalyst::Action::RenderView::ErrorHandler::Action::Email;
+#    -Debug
+use Catalyst qw/
+    ConfigLoader
+    Static::Simple
+    Session::CGISession
+/;
+
+extends 'Catalyst';
+
+our $VERSION = '0.01';
+
+# Configure the application.
+#
+# Note that settings in openid.conf (or other external
+# configuration file that you set up manually) take precedence
+# over this when using ConfigLoader. Thus configuration
+# details given here can function as a default configuration,
+# with an external configuration file acting as an override for
+# local deployment.
+
+__PACKAGE__->config(
+	name => 'openid',
+	# Disable deprecated behavior needed by old applications
+	disable_component_resolution_regex_fallback => 1,
+	enable_catalyst_header => 0, # Send X-Catalyst header
+	default_view => 'HTML',
+	error_handler => {
+		'actions' => [
+			{
+				type => 'Log',
+				id => 'log-server',
+				level => 'error',
+				enable => 1,
+				expose_stash => '/./'
+			},
+			{
+				#Use this action
+				type => 'Email',
+				enable => 1,
+				expose_stash => '/./',
+				id => 'log-email',
+				#Regex to ignore all request paths with PhpMyAdmin or SqlDump init. Regex is case insensitive used.
+				#ignorePath => '(PhpMyAdmin|SqlDump)',
+				#This should be a Catalyst::View::Email::Template or Catalyst::View::Email view.
+				view => "Email::Template",
+				wrapper => 0,
+				
+				#This options are copied into $c->stash->{email} for accesing from the view selected above
+				#For additional information look into the documentation of Catalyst::View::Email::Template
+				options => {
+				(
+					#becomes $c->stash->{email}->{from} = ...
+					from => 'Ops-T Openid <catalyst@!domain!>',
+                                        to => '!trouble_email!',
+					subject => 'Openid - ErrorMail',
+					#Template isn't needed, if you use the simple Catalyst::View::Email
+					templates => [
+						{
+							template        => 'ErrorMail.tt2',
+							content_type    => 'text/plain',
+							charset         => 'utf-8',
+							#encoding        => 'quoted-printable',
+							view            => 'HTML_NoWrap'
+							#current_view    => 'Email::Template'
+						},
+					]
+				)}
+			}
+		],
+		'handlers' => {
+		(
+			'5xx' => {
+				template => 'errors/error_internal.tt2',
+				actions => ['log-email', 'log-server']
+			},
+			'404' => {
+				template => 'errors/missing.tt2',
+				actions => ['log-server']
+			},
+			'fallback' =>  {
+				static => 'root/errors/error.html', 
+				actions => ['log-email','log-email']
+			}
+		)},
+		view => 'Email::Template',
+		'enable' => 1
+	} 
+);
+
+__PACKAGE__->log(Log::Log4perl::Catalyst->new('/proj/ops-trust/openid/lib/l4p.conf'));
+
+__PACKAGE__->config->{session} = {
+	expires   => 3600, #Session expire time 1 hour
+	rewrite   => 0, #If this switch is enabled redirects break horribly. 
+	cookie_name => 'CGISESSID',
+	cookie_domain => '!domain!',
+	cookie_httponly => 1, 
+	cookie_secure => 2,
+	cgis_dsn => 'driver:PostgreSQL',
+};
+
+__PACKAGE__->config->{ops_t} = {
+	association_expire => 3600,
+	fqdn => 'openid.!domain!',
+	tries_before_cap => 3,
+	max_login_attempt => 7,
+	default_success => 'https://!portalname!.!domain!/'
+};
+
+__PACKAGE__->config->{recaptcha} = {
+	pub_key  => '!re_captcha_pub_key!',
+	priv_key => '!re_captcha_priv_key!',
+	options  => { theme => 'blackglass' }
+};
+
+with 'CatalystX::DebugFilter';
+__PACKAGE__->config(
+	'CatalystX::DebugFilter' => {
+		Request => { params => [ 'password','second_factor' ] },
+	},
+);
+
+# Start the application
+__PACKAGE__->setup();
+
+=head1 NAME 
+
+openid - Catalyst based application
+
+=head1 SYNOPSIS 
+
+script/openid_server.pl
+
+=head1 DESCRIPTION 
+
+[enter your description here]
+
+=head1 SEE ALSO 
+
+L<openid::Controller::Root>, L<Catalyst>
+
+=head1 AUTHOR 
+
+root
+
+=head1 LICENSE 
+
+This library is free software. You can redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut
+
+1;

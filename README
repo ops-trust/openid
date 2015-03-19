@@ -1,0 +1,38 @@
+Run script/openid_server.pl to test the application.
+
+#To start the fastcgi process: ./script/openid_fastcgi.pl -l /tmp/openid.socket -n 5
+
+#To regenrate the DB schema use:  (Don't forget GRANT on new tables)
+./script/openid_create.pl model OT_DB DBIC::Schema Openid::Schema create=static 'dbi:Pg:dbname=ops-trust;host=db.ops-trust.net' 'www' ''
+
+Useful References:
+http://www.lifewiki.net/openid/OpenIDSpecification
+https://metacpan.org/source/ARNESOND/Net-OpenID-JanRain-0.9.6/t/consumertest.pl
+http://www.cl.cam.ac.uk/~sjm217/misc/openid-protocol.pdf
+https://metacpan.org/source/ARNESOND/Net-OpenID-JanRain-0.9.6
+
+
+OpenID Sites: 
+http://www.livejournal.com/identity/login.bml?type=openid	(Works)
+http://www.dreamwidth.org/openid/				(Works)
+
+http://openid-consumer.appspot.com/				(Not ACKing Assocation.)
+http://www.toodledo.com/openid.php				(Need to add non-encrypted v1.1)
+https://cepdb.molecularspace.org/accounts/openid/login/ 	(Not known CA)
+http://test-id.net/
+http://www.commandlinefu.com/users/openid
+http://openidtest.uninett.no/test#!/connect			(Needs well-known setup)
+http://www.openid-ldap.org/test.php				(Won't accept our id)
+http://ruby-open-id-example.herokuapp.com/consumer
+http://openid-demo.appspot.com/?
+
+Install Notes: 
+-Non-apt perl modules are foind in: Sources
+	-CatalystX-DebugFilter-0.05
+	-Catalyst::Plugin::Session::CGISession
+	-Net-OpenID-JanRain-0.9.6
+	-Catalyst-Action-RenderView-ErrorHandler-0.100166
+	-Catalyst-Action-RenderView-ErrorHandler-Action-Email-0.04
+	-Catalyst-TraitFor-Controller-reCAPTCHA-1.122510
+
+Startup(init) script from: http://wiki.catalystframework.org/wiki/deployment/fcgi-init.view

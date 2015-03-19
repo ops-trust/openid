@@ -1,0 +1,10 @@
+{
+   "subject": "[% resource %]",
+   "links":
+    [
+     {
+      "rel": "[% rel %]",
+      "href": "https://openid.ops-trust.net/"
+     }
+    ]
+  }

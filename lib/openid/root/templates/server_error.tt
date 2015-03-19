@@ -1,0 +1,9 @@
+ns:[% ns %]
+error:[% error %]
+error_code:unsupported-type
+[% IF session_type %]
+session_type:[% session_type %]
+[% END %]
+[% IF assoc_type %]
+assoc_type:[% assoc_type %]
+[% END %]

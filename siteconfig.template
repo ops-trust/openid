@@ -1,0 +1,53 @@
+#
+# The name of the group that owns this installation.
+brand='Ops-T'
+#
+# A title which will appear on the portal's pages.
+title='Operations Security Trust'
+#
+# Copyright by...
+coname='OpSecAdmin'
+#
+# The portal host name.
+portalname='portal'
+#
+# The email domain to be used.
+domain='ops-trust.net'
+#
+# URL to the wiki for a trustgroup. %s is replaced by the TrustGroup name.
+wiki='https://wiki.ops-trust.net/%s/bin/view'
+#
+# Regular expressions to be used in locating the support website or wiki.
+supportre='/^https:\/\/ops\.ops-trust\.net\/rt/'
+wikire='/^https:\/\/wiki\.ops-trust\.net\/([a-z]+)\//'
+#
+# The location of the postgres DB, either a local instance or a hostname.
+pghost='db.ops-trust.net'
+pgport=5432
+#
+# The database name to be used.
+pgname='ops-trust'
+#
+# Paths to the running code once installed.
+portal='/proj/ops-trust'
+library='/proj/ops-trust/library'
+webroot='/proj/ops-trust/webroot'
+sitedir='/proj/ops-trust/webroot/site'
+mechdir='/proj/ops-trust/webroot/mech'
+webvar='/proj/ops-trust/webvar'
+#
+# User id (integer) and group id (integer) to be used for file ownership
+# and apache process configuration.
+wwwuid=33
+wwwgid=33
+#
+# Paths to SSL Key, Cert, Chainfile. To be used in the Apache configuration.
+sslcertfile='/etc/ssl/certs/openid.ops-trust.net.pem'
+sslkeyfile='/etc/ssl/private/private-key-material.key'
+sslchainfile='/etc/ssl/certs/sub.class1.server.ca.crt'
+# ReCpatcha needs a key-set. 
+re_captcha_pub_key='6LeiE-sSAAAAAFntWhjqSu_JrHoW_DYvHBhQkAzG'
+re_captcha_priv_key='6LeiE-sSAAAAAG1QnVTn2WOV6hBrJi2ID5NMHoOX'
+
+#Where to send trouble reports. (hopefully to generate tickets.)
+trouble_email='technical@support.ops-trust.net'

@@ -1,0 +1,7 @@
+{
+   "issuer": "https://openid.ops-trust.net",
+   "userinfo_endpoint": "https://openid.ops-trust.net/members",
+   "subject": "[% resource %]",
+   "end_session_endpoint": "https://openid.ops-trust.net/logout",
+   "service_documentation": "http://openid.ops-trust.net/about",
+}

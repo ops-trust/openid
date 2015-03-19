@@ -1,0 +1,42 @@
+[% IF no_wrapper %][% content %][% ELSE %]
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" [%# %]"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<HEAD>
+<TITLE>!title!</title>
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<LINK REL="stylesheet" HREF="[% '/static/css/main.css' %]" />
+<LINK REL="shortcut icon" HREF="/favicon.ico" TYPE="image/x-icon">
+[% head_links -%]
+
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="10px">
+  <COLGROUP WIDTH="20%"> <COLGROUP WIDTH="*0">
+  <TR><TD COLSPAN="2">
+    <A HREF="/">
+      <P CLASS="mh">!title!</P>
+    </A>
+  </TD></TR>
+  <TR>
+    <TD VALIGN="top">
+      [% PROCESS templates/menu.tt %]
+    </TD><TD VALIGN="top">
+
+[% IF alert %]
+<div class="alert-box [% alert_class %]"><span>[% alert_class %]: </span>[% alert %]</div>
+[% END %]
+
+      [% content %]
+    </TD>
+  </TR>
+  <TR>
+    <TD ALIGN="LEFT">
+&copy; OpSecTrust
+    </TD> 
+    <TD></TD>
+  </TR>
+</TABLE>
+</BODY>
+</HTML>
+[% END %]

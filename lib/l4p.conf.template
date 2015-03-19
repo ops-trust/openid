@@ -1,0 +1,6 @@
+log4perl.logger.openid = INFO, LOGFILE
+log4perl.appender.LOGFILE=Log::Log4perl::Appender::File
+log4perl.appender.LOGFILE.filename=!portal!/logs/openid.log
+log4perl.appender.LOGFILE.mode=append
+log4perl.appender.LOGFILE.layout=PatternLayout
+log4perl.appender.LOGFILE.layout.ConversionPattern=[%d] [%p] %m%n

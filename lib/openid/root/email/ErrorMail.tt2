@@ -1,0 +1,44 @@
+[% USE Dumper %]
+There was a error in yor App:
+Requested path: [% base %] - [% c.request.path %]
+
+Method: [% c.request.method %]
+
+Arguments:
+[% FOREACH a IN c.request.args %]
+   [% a | html %]
+[% END %]
+
+Headers:
+[% Dumper.dump(c.request.headers) %]
+
+Cookies:
+[% Dumper.dump(c.request.cookies) %]
+
+Parameters:
+[% a = c.request.parameters %]
+[% IF a.password %]
+[% a.password = '[FILTERED]' %]
+[% END %]
+[% IF a.second_factor %]
+[% a.second_factor = '[FILTERED]' %]
+[% END %]
+[% Dumper.dump(a) %]
+
+Stash:
+[% Dumper.dump(c.stash) %]
+
+Address: [% c.request.address | html %]
+User Agent: [% c.request.user_agent | html %]
+Referer: [% c.request.referer | html %]
+
+Error messages:
+[% FOREACH e IN c.error %]
+   [% e | html %]
+[% END %]
+
+[% IF c.response.code %]
+Error code:
+[% c.response.code %]
+[% END %]
+
