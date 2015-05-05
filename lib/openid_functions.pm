@@ -80,7 +80,7 @@ sub valid_username($){
         return 0;
 }
 
-sub need_capcha($){
+sub need_captcha($){
         my ($c) = @_;
         my @ip_cache = $c->model('OT_DB::OpenidSourceCache')->search({
                 src_ip => $c->request->address
