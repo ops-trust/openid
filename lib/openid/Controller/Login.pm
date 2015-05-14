@@ -32,7 +32,7 @@ sub index :Path :Args(0) {
 }
 
 sub form :Local {
-        my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 	my $req = $c->request;
 	my $cookie = $c->request->cookie($c->config->{session}->{cookie_name});
 	my $sess_id = $cookie->{value}[0];
@@ -108,7 +108,7 @@ sub form :Local {
 			openid_functions::increment_capcha($c);
 		}
 	}
-	if (openid_functions::need_capcha($c)){
+	if (openid_functions::need_captcha($c)){
 		$c->forward('captcha_get');
 	}
 	$c->response->header('Cache-Control' => 'no-cache');
@@ -147,7 +147,7 @@ sub submit :Path {
 	#We can't write directly to however if $ENV{REMOTE_ADDR} is set first it will get set. 
 	$ENV{REMOTE_ADDR} = $req->address(); 
 	#TODO prevent corner case where member could be logged in via cookie while still needing capatcha.
-	if (openid_functions::need_capcha($c)){
+	if (openid_functions::need_captcha($c)){
 		if (!$c->forward('captcha_check') ) {
 			$c->stash( alert => "Capatcha check failed" );
 			$c->stash( alert_class => "error" );
